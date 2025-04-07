@@ -17,7 +17,7 @@ class ChaosScheduler:
     def __init__(self):
         # Configure job stores and executors
         jobstores = {
-            'default': SQLAlchemyJobStore(url=os.environ.get('DATABASE_URL', 'sqlite:///chaos_engineering.db'))
+            'default': SQLAlchemyJobStore(url='sqlite:///chaos_engineering.db')
         }
         executors = {
             'default': ThreadPoolExecutor(20)
