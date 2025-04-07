@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <h1 class="display-6">
+            <i class="fab fa-docker me-2"></i> Container Management
+        </h1>
+        <p class="lead">Manage Docker hosts and containers for chaos experiments.</p>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Docker Hosts List -->
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="m-0 fw-bold">Docker Hosts</h5>
+            </div>
+            <div class="card-body">
+                {% if docker_hosts %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>URL</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for host in docker_hosts %}
+                            <tr>
+                                <td>{{ host.name }}</td>
+                                <td>{{ host.url }}</td>
+                                <td>
+                                    <span class="badge rounded-pill {% if host.status == 'online' %}bg-success{% elif host.status == 'offline' %}bg-danger{% else %}bg-secondary{% endif %}">
+                                        {{ host.status }}
+                                    </span>
+                                </td>
+                                <td class="table-actions">
+                                    <div class="btn-group btn-group-sm">
+                                        <form id="refresh-form-{{ host.id }}" action="{{ url_for('refresh_containers', host_id=host.id) }}" method="post">
+                                            <button type="button" class="btn btn-outline-primary refresh-containers" data-host-id="{{ host.id }}">
+                                                <i class="fas fa-sync-alt"></i> Refresh
+                                            </button>
+                                        </form>
+                                        <form action="{{ url_for('delete_docker_host', host_id=host.id) }}" method="post" class="ms-1">
+                                            <button type="submit" class="btn btn-outline-danger" data-confirm="Are you sure you want to delete this Docker host and all its containers?">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fab fa-docker fa-4x mb-3 text-muted"></i>
+                    <p class="lead">No Docker hosts added yet</p>
+                    <p>Add your first Docker host using the form on the right</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Containers List -->
+        {% for host in docker_hosts %}
+        {% if host.containers %}
+        <div class="card shadow mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="m-0 fw-bold">
+                    Containers on {{ host.name }}
+                    <span class="badge rounded-pill {% if host.status == 'online' %}bg-success{% elif host.status == 'offline' %}bg-danger{% else %}bg-secondary{% endif %}">
+                        {{ host.status }}
+                    </span>
+                </h5>
+                <form action="{{ url_for('refresh_containers', host_id=host.id) }}" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Image</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for container in host.containers %}
+                            <tr>
+                                <td>{{ container.name }}</td>
+                                <td>{{ container.image }}</td>
+                                <td>
+                                    <span class="badge rounded-pill {% if container.status == 'running' %}bg-success{% elif container.status == 'exited' or container.status == 'stopped' %}bg-warning{% else %}bg-secondary{% endif %}">
+                                        {{ container.status }}
+                                    </span>
+                                </td>
+                                <td class="table-actions">
+                                    <div class="btn-group btn-group-sm">
+                                        {% if container.status == 'running' %}
+                                        <form action="{{ url_for('container_action', container_id=container.id) }}" method="post">
+                                            <input type="hidden" name="action" value="stop">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" data-confirm="Are you sure you want to stop this container?">
+                                                <i class="fas fa-stop"></i> Stop
+                                            </button>
+                                        </form>
+                                        <form action="{{ url_for('container_action', container_id=container.id) }}" method="post" class="ms-1">
+                                            <input type="hidden" name="action" value="restart">
+                                            <button type="submit" class="btn btn-sm btn-outline-warning" data-confirm="Are you sure you want to restart this container?">
+                                                <i class="fas fa-sync"></i> Restart
+                                            </button>
+                                        </form>
+                                        {% else %}
+                                        <form action="{{ url_for('container_action', container_id=container.id) }}" method="post">
+                                            <input type="hidden" name="action" value="start">
+                                            <button type="submit" class="btn btn-sm btn-outline-success" data-confirm="Are you sure you want to start this container?">
+                                                <i class="fas fa-play"></i> Start
+                                            </button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    
+    <!-- Add Docker Host Form -->
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="m-0 fw-bold">Add New Docker Host</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('add_docker_host') }}" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Host Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="url" class="form-label">Docker API URL</label>
+                        <input type="text" class="form-control" id="url" name="url" placeholder="tcp://hostname:2375" required>
+                        <small class="form-text text-muted">Examples: tcp://localhost:2375, unix:///var/run/docker.sock</small>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="tls_verify" name="tls_verify">
+                        <label class="form-check-label" for="tls_verify">Use TLS</label>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="cert_path" class="form-label">TLS Certificates Path (Optional)</label>
+                        <input type="text" class="form-control" id="cert_path" name="cert_path" placeholder="/path/to/certs">
+                        <small class="form-text text-muted">Path to directory containing ca.pem, cert.pem, and key.pem</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-plus me-1"></i> Add Docker Host
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
