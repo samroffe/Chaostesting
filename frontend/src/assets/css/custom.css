@@ -1,4 +1,4 @@
-/* Custom CSS for Chaos Engineering Tool - Gremlin Inspired (v2) */
+/* Custom CSS for Chaos Engineering Tool - Modern Dark Theme (v2) */
 
 html, body {
   background-color: #1a1d21;
@@ -36,41 +36,42 @@ body {
 .card-body {
   background-color: #2a2d34;
   padding: 1.5rem;
+  padding: 1.5rem;
 }
 
-/* Gremlin-inspired elements */
-.gremlin-primary {
-  color: #fc5223 !important; /* Gremlin's orange color */
+/* Modern theme elements */
+.style-primary {
+  color: #fc5223 !important; /* Primary accent color */
 }
 
-.bg-gremlin-primary {
+.bg-style-primary {
   background-color: #fc5223 !important; 
 }
 
-.btn-gremlin-primary {
+.btn-style-primary {
   background-color: #fc5223;
   border-color: #fc5223;
   color: white;
 }
 
-.btn-gremlin-primary:hover {
+.btn-style-primary:hover {
   background-color: #e84518;
   border-color: #e84518;
   color: white;
 }
 
-.btn-gremlin-outline {
+.btn-style-outline {
   border-color: #fc5223;
   color: #fc5223;
   background-color: transparent;
 }
 
-.btn-gremlin-outline:hover {
+.btn-style-outline:hover {
   background-color: #fc5223;
   color: white;
 }
 
-/* Account card - the distinctive hexagon-card style from Gremlin */
+/* Account card - the distinctive hexagon-card style for infrastructure accounts */
 .account-card {
   border-radius: 8px;
   position: relative;
@@ -147,7 +148,7 @@ body {
   border-left: 4px solid var(--bs-warning);
 }
 
-.card-border-gremlin {
+.card-border-style {
   border-left: 4px solid #fc5223;
 }
 
@@ -207,7 +208,7 @@ body {
 }
 
 .status-offline {
-  color: #fc5223; /* Gremlin orange */
+  color: #fc5223; /* Primary orange */
 }
 
 .status-unknown {
@@ -276,7 +277,7 @@ body {
   color: #a0a3a9;
 }
 
-/* Activity Timeline - Gremlin style */
+/* Activity Timeline - Modern style */
 .activity-timeline {
   position: relative;
   padding-left: 30px;
