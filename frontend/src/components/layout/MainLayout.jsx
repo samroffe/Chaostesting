@@ -7,23 +7,15 @@ import {
   faFlask, 
   faChartBar, 
   faCog, 
-  faSignOutAlt, 
   faUserCircle,
   faRandom,
   faShieldAlt
 } from '@fortawesome/free-solid-svg-icons';
 
-const MainLayout = ({ children, user, onLogout }) => {
+const MainLayout = ({ children, user }) => {
   const location = useLocation();
-  const username = user?.username || "Guest";
+  const username = user?.username || "Admin";
   const isAdmin = user?.isAdmin || false;
-
-  const handleLogout = (e) => {
-    e.preventDefault();
-    if (onLogout) {
-      onLogout();
-    }
-  };
 
   return (
     <div className="main-layout">
@@ -111,12 +103,6 @@ const MainLayout = ({ children, user, onLogout }) => {
                     <Link className="dropdown-item" to="/settings">
                       <FontAwesomeIcon icon={faCog} className="me-1" /> Settings
                     </Link>
-                  </li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li>
-                    <a className="dropdown-item" href="#" onClick={handleLogout}>
-                      <FontAwesomeIcon icon={faSignOutAlt} className="me-1" /> Logout
-                    </a>
                   </li>
                 </ul>
               </li>
