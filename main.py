@@ -8,7 +8,7 @@ import sys
 DEV_MODE = not os.path.exists('frontend/dist')
 
 # Set up static folder based on mode
-static_folder = 'frontend/public' if DEV_MODE else 'frontend/dist'
+static_folder = 'frontend/public' if DEV_MODE else 'static/frontend'
 app = Flask(__name__, static_folder=static_folder)
 CORS(app)  # Enable CORS for all routes
 
@@ -23,43 +23,43 @@ mock_stats = {
 mock_logs = [
     { 
         "id": 1, 
-        "targetType": "server", 
-        "targetName": "Web Server 1", 
+        "target_type": "server", 
+        "target_name": "Web Server 1", 
         "action": "restart", 
         "status": "success", 
-        "executionTime": "2025-04-07 14:23:45"
+        "execution_time": "2025-04-07T14:23:45Z"
     },
     { 
         "id": 2, 
-        "targetType": "container", 
-        "targetName": "api-gateway", 
+        "target_type": "container", 
+        "target_name": "api-gateway", 
         "action": "stop", 
         "status": "success", 
-        "executionTime": "2025-04-07 12:15:30"
+        "execution_time": "2025-04-07T12:15:30Z"
     },
     { 
         "id": 3, 
-        "targetType": "server", 
-        "targetName": "Database Server", 
+        "target_type": "server", 
+        "target_name": "Database Server", 
         "action": "restart", 
         "status": "failed", 
-        "executionTime": "2025-04-07 10:45:12"
+        "execution_time": "2025-04-07T10:45:12Z"
     },
     { 
         "id": 4, 
-        "targetType": "container", 
-        "targetName": "auth-service", 
+        "target_type": "container", 
+        "target_name": "auth-service", 
         "action": "start", 
         "status": "success", 
-        "executionTime": "2025-04-06 22:10:05"
+        "execution_time": "2025-04-06T22:10:05Z"
     },
     { 
         "id": 5, 
-        "targetType": "container", 
-        "targetName": "payment-processor", 
+        "target_type": "container", 
+        "target_name": "payment-processor", 
         "action": "stop", 
         "status": "success", 
-        "executionTime": "2025-04-06 18:32:41"
+        "execution_time": "2025-04-06T18:32:41Z"
     }
 ]
 
@@ -68,28 +68,28 @@ mock_upcoming_experiments = [
         "id": 1,
         "name": "Daily API Restart",
         "description": "Restart API containers to simulate recovery",
-        "targetType": "container",
+        "target_type": "container",
         "action": "restart",
-        "scheduleType": "recurring",
-        "recurringPattern": "0 2 * * *"
+        "schedule_type": "recurring",
+        "recurring_pattern": "0 2 * * *"
     },
     {
         "id": 2,
         "name": "Database Failover Test",
         "description": "Test database failover by restarting primary DB server",
-        "targetType": "server",
+        "target_type": "server",
         "action": "restart",
-        "scheduleType": "one_time",
-        "scheduledTime": "2025-04-10 01:00:00"
+        "schedule_type": "one_time",
+        "scheduled_time": "2025-04-10T01:00:00Z" 
     },
     {
         "id": 3,
         "name": "Network Partition Test",
         "description": "Simulate network partition by stopping network containers",
-        "targetType": "container",
+        "target_type": "container",
         "action": "stop",
-        "scheduleType": "one_time",
-        "scheduledTime": "2025-04-08 03:30:00"
+        "schedule_type": "one_time",
+        "scheduled_time": "2025-04-08T03:30:00Z"
     }
 ]
 

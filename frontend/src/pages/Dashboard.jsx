@@ -70,14 +70,24 @@ const Dashboard = () => {
 
   // Format date to readable string
   const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
+    try {
+      // Try to create a valid date object, or use current date on error
+      const date = dateStr ? new Date(dateStr) : new Date();
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(date);
+    } catch (error) {
+      console.error("Date formatting error:", error);
+      return 'Invalid date format';
+    }
   };
   
   // Get provider icon

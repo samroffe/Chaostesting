@@ -1,4 +1,9 @@
-/* Custom CSS for Chaos Engineering Tool - Gremlin Inspired */
+/* Custom CSS for Chaos Engineering Tool - Gremlin Inspired (v2) */
+
+html, body {
+  background-color: #1a1d21;
+  color: white;
+}
 
 /* General Layout */
 body {
