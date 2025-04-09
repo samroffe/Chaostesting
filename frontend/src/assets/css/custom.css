@@ -1,0 +1,105 @@
+/* Custom CSS for Chaos Engineering Tool */
+
+/* General Layout */
+body {
+  padding-top: 70px; /* Account for fixed navbar */
+}
+
+/* Dark theme overrides */
+.card {
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Card customizations */
+.card-header .badge {
+  margin-left: 5px;
+}
+
+.card-dashboard {
+  height: 100%;
+}
+
+.card-border-left-primary {
+  border-left: 4px solid var(--bs-primary);
+}
+
+.card-border-left-success {
+  border-left: 4px solid var(--bs-success);
+}
+
+.card-border-left-info {
+  border-left: 4px solid var(--bs-info);
+}
+
+.card-border-left-warning {
+  border-left: 4px solid var(--bs-warning);
+}
+
+/* Charts */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.mini-chart-container {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+/* Status badges */
+.status-online {
+  color: var(--bs-success);
+}
+
+.status-offline {
+  color: var(--bs-danger);
+}
+
+.status-unknown {
+  color: var(--bs-secondary);
+}
+
+/* Table customizations */
+.table-actions {
+  width: 150px;
+}
+
+/* Login form */
+.login-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+.login-form .card {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Experiment item */
+.experiment-item {
+  transition: transform 0.2s ease;
+}
+
+.experiment-item:hover {
+  transform: translateY(-2px);
+}
+
+/* Utilities */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Footer */
+.footer {
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+}
